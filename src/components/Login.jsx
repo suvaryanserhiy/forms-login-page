@@ -1,22 +1,15 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 
 export default function Login() {
-	const [enteredValues, setEnteredValues] = useState({
-		email: '',
-		password: '',
-	});
+	const email = useRef();
+	const password = useRef();
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		console.log('Submitted');
-		console.log('User email: ' + enteredValues.email);
-	}
+		const enteredEmail = email.current.value;
+		const enteredPassword = password.current.value;
 
-	function handleInputChange(identifier, value) {
-		setEnteredValues((prevValues) => ({
-			...prevValues,
-			[identifier]: value,
-		}));
+		console.log(enteredEmail, enteredPassword);
 	}
 	return (
 		<form onSubmit={handleSubmit}>
@@ -25,32 +18,18 @@ export default function Login() {
 			<div className='control-row'>
 				<div className='control no-margin'>
 					<label htmlFor='email'>Email</label>
-					<input
-						id='email'
-						type='email'
-						name='email'
-						onChange={(e) => handleInputChange('email', e.target.value)}
-						value={enteredValues.email}
-					/>
+					<input id='email' type='email' name='email' ref={email} />
 				</div>
 
 				<div className='control no-margin'>
 					<label htmlFor='password'>Password</label>
-					<input
-						id='password'
-						type='password'
-						name='password'
-						onChange={(e) => handleInputChange('password', e.target.value)}
-						value={enteredValues.password}
-					/>
+					<input id='password' type='password' name='password' ref={password} />
 				</div>
 			</div>
 
 			<p className='form-actions'>
 				<button className='button button-flat'>Reset</button>
-				<button className='button' onClick={handleSubmit}>
-					Login
-				</button>
+				<button className='button'>Login</button>
 			</p>
 		</form>
 	);
